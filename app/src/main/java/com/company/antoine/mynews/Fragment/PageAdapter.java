@@ -5,11 +5,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-public class pageAdapter extends FragmentPagerAdapter{
+public class PageAdapter extends FragmentPagerAdapter{
 
     private String[] onglet = {"TOP STORIES","MOST POPULAR","BUSINESS"};
 
-    public pageAdapter(FragmentManager fm) {
+    public PageAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -20,7 +20,7 @@ public class pageAdapter extends FragmentPagerAdapter{
 
     @Override
     public Fragment getItem(int position) {
-        return (viewPagerFragment.newInstance(position));
+        return (ViewPagerFragment.newInstance(position));
     }
 
     @Nullable

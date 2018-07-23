@@ -13,21 +13,21 @@ import com.company.antoine.mynews.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class viewPagerFragment extends Fragment {
+public class ViewPagerFragment extends Fragment {
 
     private static final String KEY_POSITION="position";
 
-    public viewPagerFragment() { }
+    public ViewPagerFragment() { }
 
-public static viewPagerFragment newInstance(int position){
+    public static ViewPagerFragment newInstance(int position){
 
-        viewPagerFragment view = new viewPagerFragment();
+        ViewPagerFragment view = new ViewPagerFragment();
 
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
         view.setArguments(args);
         return view;
-}
+    }
 
 
     @Override
