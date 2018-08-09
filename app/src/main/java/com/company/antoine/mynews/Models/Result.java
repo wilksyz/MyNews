@@ -49,9 +49,34 @@ public class Result {
     @SerializedName("media")
     @Expose
     private List<Medium> media = null;
+    @SerializedName("multimedia")
+    @Expose
+    private List<Multimedium> multimedia = null;
+    @SerializedName("short_url")
+    @Expose
+    private String shortUrl;
+    @SerializedName("subsection")
+    @Expose
+    private String subsection;
+    @SerializedName("web_url")
+    @Expose
+    private String webUrl;
+    @SerializedName("snippet")
+    @Expose
+    private String snippet;
+    @SerializedName("pub_date")
+    @Expose
+    private String pubDate;
+    @SerializedName("score")
+    @Expose
+    private Double score;
 
     public String getUrl() {
-        return url;
+        if (url == null){
+            return webUrl;
+        }else{
+            return url;
+        }
     }
 
     public void setUrl(String url) {
@@ -162,4 +187,59 @@ public class Result {
         this.media = media;
     }
 
+    public List<Multimedium> getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(List<Multimedium> multimedia) {
+        this.multimedia = multimedia;
+    }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
+    public String getSubsection() {
+        return subsection;
+    }
+
+    public void setSubsection(String subsection) {
+        this.subsection = subsection;
+    }
+
+    public String getWebUrl() {
+        return webUrl;
+    }
+
+    public void setWebUrl(String webUrl) {
+        this.webUrl = webUrl;
+    }
+
+    public String getSnippet() {
+        return snippet;
+    }
+
+    public void setSnippet(String snippet) {
+        this.snippet = snippet;
+    }
+
+    public String getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(String pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
 }

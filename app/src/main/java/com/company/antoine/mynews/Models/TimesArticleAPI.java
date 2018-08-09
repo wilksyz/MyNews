@@ -23,6 +23,9 @@ public class TimesArticleAPI {
     @SerializedName("results")
     @Expose
     private List<Result> results = null;
+    @SerializedName("response")
+    @Expose
+    private Response response;
 
     public String getStatus() {
         return status;
@@ -56,13 +59,12 @@ public class TimesArticleAPI {
         this.results = results;
     }
 
-    @Override
-    public String toString() {
-        return "TimesArticleAPI{" +
-                "status='" + status + '\'' +
-                ", copyright='" + copyright + '\'' +
-                ", numResults=" + numResults +
-                ", results=" + results +
-                '}';
+    public Response getResponse() {
+        return response;
     }
+
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
 }

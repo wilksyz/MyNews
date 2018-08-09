@@ -18,9 +18,17 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<TimesArticleAPI> streamFetchTimesTopStories(String id){
+    public static Observable<TimesArticleAPI> streamFetchTimesTopStories(String section){
         NYTimesService nytimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nytimesService.topStoriesId(id)
+        return nytimesService.topStoriesSection(section)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<TimesArticleAPI> streamFetchTimesArticleSearch(String research){
+        NYTimesService nytimesService = NYTimesService.retrofit.create(NYTimesService.class);
+        return nytimesService.articleSearchTerm(research)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

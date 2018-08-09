@@ -1,20 +1,35 @@
 package com.company.antoine.mynews.Fragment;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.company.antoine.mynews.Models.Response;
+import com.company.antoine.mynews.Models.Result;
 import com.company.antoine.mynews.Models.TimesArticleAPI;
 import com.company.antoine.mynews.R;
+import com.company.antoine.mynews.Utils.ItemClickSupport;
 import com.company.antoine.mynews.Utils.NYTimesStreams;
+import com.company.antoine.mynews.Views.RecyclerViewAdapter;
 
-import io.reactivex.disposables.Disposable;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -23,9 +38,11 @@ import io.reactivex.observers.DisposableObserver;
 public class ViewPagerFragment extends Fragment {
 
     private static final String KEY_POSITION="position";
-    Disposable disposable ;
-    Disposable disposables ;
-
+    CompositeDisposable disposables = new CompositeDisposable();
+    private List<Result> article;
+    private RecyclerViewAdapter adapter;
+    @BindView(R.id.fragment_recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.fragment_refresh_view) SwipeRefreshLayout swipeRefreshLayout;
 
     public ViewPagerFragment() { }
 
@@ -45,28 +62,69 @@ public class ViewPagerFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_view_pager, container, false);
+        ButterKnife.bind(this, result);
         int position = getArguments().getInt(KEY_POSITION, -1);
 
+        configureRecycler(position);
+        configureRefreshLayout(position);
+        configureOnClickRecyclerView();
+
         if (position == 0){
-            executeHttpRequestMostPopular();
-        }
-        if (position == 1){
             executeHttpRequestTopStories();
         }
-        if (position == 2){
-
+        if (position == 1){
+            executeHttpRequestMostPopular();
         }
+        if (position == 2){
+            executeHttpRequestArticleSearch();
+        }
+
 
         return result;
     }
 
+    private void configureRecycler(int position){
+        this.article = new ArrayList<>();
+        this.adapter = new RecyclerViewAdapter(this.article, Glide.with(this), position);
+        this.recyclerView.setAdapter(this.adapter);
+        this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void configureRefreshLayout(final int position){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (position == 0){
+                    executeHttpRequestTopStories();
+                }else if (position == 1){
+                    executeHttpRequestMostPopular();
+                }else{
+                    executeHttpRequestArticleSearch();
+                }
+            }
+        });
+    }
+
+    private void configureOnClickRecyclerView(){
+        ItemClickSupport.addTo(recyclerView, R.layout.view_recycler)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        Result objectArticle = adapter.getArticle(position);
+                        //Toast.makeText(getContext(), "You clicked on user : "+objectArticle.getUrl(), Toast.LENGTH_SHORT).show();
+                        String url = objectArticle.getUrl();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        startActivity(intent);
+                    }
+                });
+
+    }
+
     private void executeHttpRequestMostPopular(){
-        this.disposable = NYTimesStreams.streamFetchTimesMostPopular("Technology").subscribeWith(new DisposableObserver<TimesArticleAPI>() {
+        disposables.add( NYTimesStreams.streamFetchTimesMostPopular("Movies").subscribeWith(new DisposableObserver<TimesArticleAPI>() {
             @Override
             public void onNext(TimesArticleAPI mostPopular) {
-                Log.e("TAG","On Next: "+mostPopular.toString());
-                // 1.3 - Update UI with list of users
-
+                updateUI(mostPopular);
             }
 
             @Override
@@ -78,17 +136,14 @@ public class ViewPagerFragment extends Fragment {
             public void onComplete() {
                 Log.e("TAG","On Complete !!");
             }
-        });
+        }));
     }
 
     private void executeHttpRequestTopStories(){
-        this.disposables = NYTimesStreams.streamFetchTimesTopStories("automobiles").subscribeWith(new DisposableObserver<TimesArticleAPI>() {
+        disposables.add( NYTimesStreams.streamFetchTimesTopStories("world").subscribeWith(new DisposableObserver<TimesArticleAPI>() {
             @Override
             public void onNext(TimesArticleAPI topStoriesAPI) {
-                Log.e("TAG","On Next Top: "+topStoriesAPI.toString());
-                // 1.3 - Update UI with list of users
-                Toast.makeText(getContext(),topStoriesAPI.getStatus(),Toast.LENGTH_SHORT).show();
-
+                updateUI(topStoriesAPI);
             }
 
             @Override
@@ -100,7 +155,26 @@ public class ViewPagerFragment extends Fragment {
             public void onComplete() {
                 Log.e("TAG","On Complete top!!");
             }
-        });
+        }));
+    }
+
+    private void executeHttpRequestArticleSearch(){
+        disposables.add( NYTimesStreams.streamFetchTimesArticleSearch("news_desk:Business").subscribeWith(new DisposableObserver<TimesArticleAPI>() {
+            @Override
+            public void onNext(TimesArticleAPI articleSearchAPI) {
+                articleSearchUpdateUI(articleSearchAPI.getResponse());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TAG","On Error "+Log.getStackTraceString(e));
+            }
+
+            @Override
+            public void onComplete() {
+                Log.e("TAG","On Complete search!!");
+            }
+        }));
     }
 
     @Override
@@ -110,9 +184,20 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void disposeOnDestroy(){
-        if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
         if (this.disposables != null && !this.disposables.isDisposed()) this.disposables.dispose();
     }
 
+    private void updateUI(TimesArticleAPI blockArticle){
+        swipeRefreshLayout.setRefreshing(false);
+        article.clear();
+        article.addAll(blockArticle.getResults());
+        adapter.notifyDataSetChanged();
+    }
 
+    private void articleSearchUpdateUI(Response blockArticle){
+        swipeRefreshLayout.setRefreshing(false);
+        article.clear();
+        article.addAll(blockArticle.getDocs());
+        adapter.notifyDataSetChanged();
+    }
 }
