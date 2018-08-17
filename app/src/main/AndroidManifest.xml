@@ -3,7 +3,6 @@
     package="com.company.antoine.mynews">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -17,42 +16,13 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Controlers.SearchArticles"
-            android:label="Search Articles"
             android:parentActivityName=".Controlers.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Controlers.WebViewActivity"
-            android:label="New York Times"
-            android:parentActivityName=".Controlers.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Controlers.NotificationActivity"
-            android:label="Notifications"
-            android:parentActivityName=".Controlers.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
-        </activity>
-        <activity
-            android:name=".Controlers.ViewSearchActivity"
-            android:label="Search Articles"
-            android:parentActivityName=".Controlers.SearchArticles"
-            android:theme="@style/AppTheme">
+            android:label="Search Articles">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controlers.MainActivity" />

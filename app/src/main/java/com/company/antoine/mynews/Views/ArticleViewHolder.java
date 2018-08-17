@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.GlideException;
-import com.company.antoine.mynews.Models.Headline;
 import com.company.antoine.mynews.Models.MediaMetadatum;
 import com.company.antoine.mynews.Models.Medium;
 import com.company.antoine.mynews.Models.Multimedium;
@@ -42,10 +41,8 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder{
         sectionView.setText(article.getSection());
         displayTittle(article, positionViewPager);
         String url = imageRequest(article, positionViewPager);
-        if (url != null){
-            imageView.setVisibility(View.VISIBLE);
-        }
         pGlide.load(url).into(imageView);
+        //imageView.setVisibility(View.GONE);
     }
 
     private void formatDate(Result article, int position) {
@@ -72,7 +69,6 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder{
     private String imageRequest(Result article, int positionViewPager){
         List<Medium> mediumList = article.getMedia();
         List<Multimedium> multimediumList = article.getMultimedia();
-        imageView.setVisibility(View.GONE);
 
         String url = null;
         if(mediumList != null && positionViewPager == 1){
@@ -97,8 +93,7 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder{
         if (position != 2){
             tittleView.setText(article.getTitle());
         }else{
-            Headline title = article.getHeadline();
-            tittleView.setText(title.getMain());
+            tittleView.setText(article.getSnippet());
         }
     }
 
@@ -111,7 +106,6 @@ public class ArticleViewHolder extends RecyclerView.ViewHolder{
             w = multimediumList.get(p).getWidth();
             p++;
         }
-        p--;
         return p;
     }
 }
