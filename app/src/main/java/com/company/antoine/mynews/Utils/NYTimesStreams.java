@@ -2,6 +2,7 @@ package com.company.antoine.mynews.Utils;
 
 import com.company.antoine.mynews.Models.TimesArticleAPI;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -26,9 +27,9 @@ public class NYTimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<TimesArticleAPI> streamFetchTimesArticleSearch(String research){
+    public static Observable streamFetchTimesArticleSearch(Map<String,String> queryData){
         NYTimesService nytimesService = NYTimesService.retrofit.create(NYTimesService.class);
-        return nytimesService.articleSearchTerm(research)
+        return nytimesService.articleSearchTerm(queryData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

@@ -70,6 +70,9 @@ public class Result {
     @SerializedName("score")
     @Expose
     private Double score;
+    @SerializedName("headline")
+    @Expose
+    private Headline headline;
 
     public String getUrl() {
         if (url == null){
@@ -241,5 +244,13 @@ public class Result {
 
     public void setScore(Double score) {
         this.score = score;
+    }
+
+    public Headline getHeadline() {
+        return headline;
+    }
+
+    public void setHeadline(Headline headline) {
+        this.headline = headline;
     }
 }
