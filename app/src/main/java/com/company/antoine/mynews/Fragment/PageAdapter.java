@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class PageAdapter extends FragmentPagerAdapter{
 
-    private String[] onglet = {"TOP STORIES","MOST POPULAR","BUSINESS"};
+    private String[] onglet = {"TOP STORIES","MOST POPULAR","AUTOMOBILES"};
 
     public PageAdapter(FragmentManager fm) {
         super(fm);
