@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_politics"
+            android:icon="@drawable/ic_account_balance"
+            android:title="Politics" />
+        <item
+            android:id="@+id/nav_sports"
+            android:icon="@drawable/ic_fitness"
+            android:title="Sports" />
+        <item
+            android:id="@+id/nav_theater"
+            android:icon="@drawable/ic_theaters"
+            android:title="Theater" />
+        <item
+            android:id="@+id/nav_technology"
+            android:icon="@drawable/ic_laptop"
+            android:title="Technology" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/ic_local_airport"
+            android:title="Travel" />
+        <item
+            android:id="@+id/nav_books"
+            android:icon="@drawable/ic_library_books"
+            android:title="Books" />
+    </group>
+</menu>
