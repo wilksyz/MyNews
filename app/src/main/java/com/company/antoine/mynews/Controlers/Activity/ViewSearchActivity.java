@@ -1,4 +1,4 @@
-package com.company.antoine.mynews.Controlers;
+package com.company.antoine.mynews.Controlers.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

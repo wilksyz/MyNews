@@ -1,4 +1,4 @@
-package com.company.antoine.mynews.Fragment;
+package com.company.antoine.mynews.Controlers.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

@@ -1,4 +1,4 @@
-package com.company.antoine.mynews.Controlers;
+package com.company.antoine.mynews.Controlers.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

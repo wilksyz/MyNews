@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Controlers.MainActivity"
+            android:name=".Controlers.Activity.MainActivity"
             android:theme="@style/AppThemeNoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,41 +22,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Controlers.SearchArticles"
+            android:name=".Controlers.Activity.SearchArticles"
             android:label="Search Articles"
-            android:parentActivityName=".Controlers.MainActivity"
+            android:parentActivityName=".Controlers.Activity.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
+                android:value=".Controlers.Activity.MainActivity" />
         </activity>
         <activity
-            android:name=".Controlers.WebViewActivity"
+            android:name=".Controlers.Activity.WebViewActivity"
             android:label="New York Times"
-            android:parentActivityName=".Controlers.MainActivity"
+            android:parentActivityName=".Controlers.Activity.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
+                android:value=".Controlers.Activity.MainActivity" />
         </activity>
         <activity
-            android:name=".Controlers.NotificationActivity"
+            android:name=".Controlers.Activity.NotificationActivity"
             android:label="Notifications"
-            android:parentActivityName=".Controlers.MainActivity"
+            android:parentActivityName=".Controlers.Activity.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
+                android:value=".Controlers.Activity.MainActivity" />
         </activity>
         <activity
-            android:name=".Controlers.ViewSearchActivity"
+            android:name=".Controlers.Activity.ViewSearchActivity"
             android:label="Search Articles"
-            android:parentActivityName=".Controlers.SearchArticles"
+            android:parentActivityName=".Controlers.Activity.SearchArticles"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controlers.MainActivity" />
+                android:value=".Controlers.Activity.MainActivity" />
         </activity>
+        <receiver android:name=".Utils.NotificationAlarm"/>
     </application>
 
 </manifest>

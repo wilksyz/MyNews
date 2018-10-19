@@ -24,7 +24,7 @@ public class NYTimesStreams {
         return nytimesService.topStoriesSection(section)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
+                .timeout(30, TimeUnit.SECONDS);
     }
 
     public static Observable streamFetchTimesArticleSearch(Map<String,String> queryData){

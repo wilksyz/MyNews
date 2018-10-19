@@ -1,4 +1,4 @@
-package com.company.antoine.mynews.Controlers;
+package com.company.antoine.mynews.Controlers.Activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
     @BindView(R.id.button_picker_begin_date) Button mButtonBeginDate;
     @BindView(R.id.textView_end_date) TextView mTextViewEndDate;
     @BindView(R.id.textView_begin_date) TextView mTextViewBeginDate;
-    @BindView(R.id.checkBox_arts)@Checked(message = "Choose a section") CheckBox mCheckBoxArts;
+    @BindView(R.id.checkBox_arts) CheckBox mCheckBoxArts;
     @BindView(R.id.checkBox_business) CheckBox mCheckBoxBusiness;
     @BindView(R.id.checkBox_entrepreneurs) CheckBox mCheckBoxEntrepreneurs;
     @BindView(R.id.checkBox_politics) CheckBox mCheckBoxPolitics;
@@ -47,7 +47,9 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
     protected String mQueryTerm;
     protected String mSection = "news_desk:";
     protected Validator mValidator;
-    protected boolean mCheck;
+    protected boolean mCheckCheckBox;
+    protected boolean mCheckEditText;
+    protected int mCheckBoxChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,39 +65,38 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
     protected void retrieveSettings(){
         mQueryTerm = mEditTextSearchTerm.getText().toString();
         if (mCheckBoxArts.isChecked()){
-            mCheck = true;
+            mCheckCheckBox = true;
             mSection = mSection+" Arts";
-        }
-        if (mCheckBoxBusiness.isChecked()){
-            mCheck = true;
+            mCheckBoxChecked = 0;
+        }else if(mCheckBoxBusiness.isChecked()){
+            mCheckCheckBox = true;
             mSection = mSection+" Business Day";
-        }
-        if (mCheckBoxEntrepreneurs.isChecked()){
-            mCheck = true;
+            mCheckBoxChecked = 1;
+        }else if(mCheckBoxEntrepreneurs.isChecked()){
+            mCheckCheckBox = true;
             mSection = mSection+" Entrepreneurs";
-        }
-        if (mCheckBoxPolitics.isChecked()){
-            mCheck = true;
+            mCheckBoxChecked = 2;
+        }else if(mCheckBoxPolitics.isChecked()){
+            mCheckCheckBox = true;
             mSection = mSection+" Politics";
-        }
-        if (mCheckBoxSports.isChecked()){
-            mCheck = true;
+            mCheckBoxChecked = 3;
+        }else if(mCheckBoxSports.isChecked()){
+            mCheckCheckBox = true;
             mSection = mSection+" Sports";
-        }
-        if (mCheckBoxTravel.isChecked()){
-            mCheck = true;
+            mCheckBoxChecked = 4;
+        }else if(mCheckBoxTravel.isChecked()){
+            mCheckCheckBox = true;
             mSection = mSection+" Travel";
+            mCheckBoxChecked = 5;
+        }else{
+            mCheckCheckBox = false;
+            Toast.makeText(getBaseContext(), "Choose a section!!!", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onValidationSucceeded() {
-        Intent intent = new Intent(FormActivity.this,ViewSearchActivity.class);
-        intent.putExtra("sectionChecked", mSection);
-        intent.putExtra("queryTerm", mQueryTerm);
-        intent.putExtra("beginDate", mBeginDate);
-        intent.putExtra("endDate", mEndDate);
-        startActivity(intent);
+        mCheckEditText = true;
     }
 
     @Override
@@ -103,6 +104,7 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
+            mCheckEditText = false;
 
             // Display error messages ;)
             if (view instanceof EditText) {
@@ -114,7 +116,7 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        Log.e("TAG","picket"+day+month+year);
+
         String mButtonDate;
         String date;
         String dayFormat;
@@ -135,6 +137,7 @@ public abstract class FormActivity extends AppCompatActivity implements DatePick
         switch (mButtonClick){
             case 1:
                 mBeginDate = date;
+                Log.e("TAG","Date:  "+date);
                 mButtonBeginDate.setText(mButtonDate);
                 break;
             case 2:

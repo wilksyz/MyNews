@@ -1,13 +1,12 @@
-package com.company.antoine.mynews.Controlers;
+package com.company.antoine.mynews.Controlers.Activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 
-import com.company.antoine.mynews.Fragment.DatePickerFragment;
+import com.company.antoine.mynews.Controlers.Fragment.DatePickerFragment;
 
 
 public class SearchArticles extends FormActivity {
@@ -38,6 +37,14 @@ public class SearchArticles extends FormActivity {
             public void onClick(View v) {
                 retrieveSettings();
                 mValidator.validate();
+                if (mCheckCheckBox && mCheckEditText){
+                    Intent intent = new Intent(SearchArticles.this,ViewSearchActivity.class);
+                    intent.putExtra("sectionChecked", mSection);
+                    intent.putExtra("queryTerm", mQueryTerm);
+                    intent.putExtra("beginDate", mBeginDate);
+                    intent.putExtra("endDate", mEndDate);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -52,6 +59,4 @@ public class SearchArticles extends FormActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
 
     }
-
-
 }

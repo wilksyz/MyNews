@@ -26,5 +26,6 @@ before_script:
   - android-wait-for-emulator
   - ./gradlew connectedCheck
 
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+
+#after_success:
+#  - bash <(curl -s https://codecov.io/bash)

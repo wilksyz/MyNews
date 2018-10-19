@@ -1,5 +1,8 @@
-package com.company.antoine.mynews.Controlers;
+package com.company.antoine.mynews.Controlers.Activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -10,23 +13,36 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.company.antoine.mynews.Fragment.PageAdapter;
+import com.company.antoine.mynews.Controlers.Fragment.PageAdapter;
 import com.company.antoine.mynews.R;
+import com.company.antoine.mynews.Utils.NotificationAlarm;
+
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private String mSection[] = {"books","politics","sports","technology","theater","travel"};
+    private String SAVE_BUTTON = "save button";
+    private boolean mActionNotification;
+    private PendingIntent mPending;
+    private AlarmManager mManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_navigation);
+        mActionNotification = getSharedPreferences("My settings", MODE_PRIVATE).getBoolean(SAVE_BUTTON, false);
         configureToolbar();
         configureViewPager();
 
@@ -48,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        Intent intent = new Intent(this, NotificationAlarm.class);
+        mPending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        mManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 30);
+        calendar.set(Calendar.SECOND, 10);
+        Objects.requireNonNull(mManager).setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, mPending);
 
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
@@ -120,5 +146,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, ViewSearchActivity.class);
         intent.putExtra("sectionChecked",mSection[position]);
         
+    }
+
+    @Override
+    protected void onPostResume() {
+        if (!mActionNotification){
+            mManager.cancel(mPending);
+        }
+        super.onPostResume();
     }
 }

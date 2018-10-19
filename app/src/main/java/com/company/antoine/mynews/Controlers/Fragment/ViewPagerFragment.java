@@ -1,4 +1,4 @@
-package com.company.antoine.mynews.Fragment;
+package com.company.antoine.mynews.Controlers.Fragment;
 
 
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.company.antoine.mynews.Controlers.WebViewActivity;
+import com.company.antoine.mynews.Controlers.Activity.WebViewActivity;
 import com.company.antoine.mynews.Models.Result;
 import com.company.antoine.mynews.Models.TimesArticleAPI;
 import com.company.antoine.mynews.R;
@@ -64,7 +64,7 @@ public class ViewPagerFragment extends Fragment {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_view_pager, container, false);
         ButterKnife.bind(this, result);
-        queryData.put("fq","section_name:(\"Automobiles\")");
+        queryData.put("fq","news_desk:(\"Business\")");
 
         configureRecycler(getArguments().getInt(KEY_POSITION, -1));
         configureRefreshLayout(getArguments().getInt(KEY_POSITION, -1));
