@@ -1,13 +1,11 @@
 package com.company.antoine.mynews.Views;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.GlideException;
 import com.company.antoine.mynews.Models.Headline;
 import com.company.antoine.mynews.Models.MediaMetadatum;
 import com.company.antoine.mynews.Models.Medium;

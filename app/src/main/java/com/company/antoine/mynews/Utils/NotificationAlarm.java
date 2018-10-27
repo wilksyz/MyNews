@@ -8,19 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.company.antoine.mynews.Controlers.Activity.MainActivity;
-import com.company.antoine.mynews.Models.Result;
 import com.company.antoine.mynews.Models.TimesArticleAPI;
 import com.company.antoine.mynews.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -53,6 +50,7 @@ public class NotificationAlarm extends BroadcastReceiver{
         String mQueryTerm = context.getSharedPreferences("My settings", MODE_PRIVATE).getString(SAVE_TERM, null);
         String mSection = context.getSharedPreferences("My settings", MODE_PRIVATE).getString(SAVE_SECTION, null);
 
+        //Prepare the settings of api request
         queryData.clear();
         queryData.put("begin_date", mDateString);
         queryData.put("q", mQueryTerm);
@@ -68,7 +66,6 @@ public class NotificationAlarm extends BroadcastReceiver{
             @Override
             public void onNext(TimesArticleAPI mostPopular) {
                 mNumberArticle = mostPopular.getResponse().getDocs().size();
-                Log.e("TAG","nb article  "+mNumberArticle);
                 sendNotification();
             }
 
@@ -79,7 +76,7 @@ public class NotificationAlarm extends BroadcastReceiver{
 
             @Override
             public void onComplete() {
-                Log.e("TAG","On Complete!!");
+                Log.i("TAG","On Complete!!");
             }
         };
     }
@@ -92,7 +89,6 @@ public class NotificationAlarm extends BroadcastReceiver{
         // 2 - Create a Style for the Notification
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         inboxStyle.setBigContentTitle("My News");
-        Log.e("TAG","Notif!!!!  ");
         inboxStyle.addLine("You have "+mNumberArticle+" new articles today!!!");
 
         // 3 - Create a Channel (Android 8)

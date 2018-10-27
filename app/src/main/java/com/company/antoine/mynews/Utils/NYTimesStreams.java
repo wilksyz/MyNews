@@ -11,6 +11,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class NYTimesStreams {
 
+    //Stream of execute request on independent thread
+
     public static Observable<TimesArticleAPI> streamFetchTimesMostPopular(String id){
         NYTimesService nytimesService = NYTimesService.retrofit.create(NYTimesService.class);
         return nytimesService.mostPopularId(id)

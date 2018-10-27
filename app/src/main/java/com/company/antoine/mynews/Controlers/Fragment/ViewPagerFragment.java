@@ -76,6 +76,7 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void configureRecycler(int position){
+        //set the recycler view
         this.article = new ArrayList<>();
         this.adapter = new RecyclerViewAdapter(this.article, Glide.with(this), position);
         this.recyclerView.setAdapter(this.adapter);
@@ -107,6 +108,7 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void executeStream(int position){
+        //execute the request before the position of viewpager
         switch (position){
             case 0: executeHttpRequestTopStories();
             break;
@@ -119,6 +121,7 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private DisposableObserver<TimesArticleAPI> getDisposable(){
+        //manages so api request is OK or not OK
         return new DisposableObserver<TimesArticleAPI>() {
             @Override
             public void onNext(TimesArticleAPI mostPopular) {
@@ -133,7 +136,7 @@ public class ViewPagerFragment extends Fragment {
 
             @Override
             public void onComplete() {
-                Log.e("TAG","On Complete !!");
+                Log.i("TAG","On Complete !!");
             }
         };
     }
@@ -161,6 +164,7 @@ public class ViewPagerFragment extends Fragment {
     }
 
     private void updateUI(TimesArticleAPI blockArticle){
+        //Update the UI in function of the result of api request
         swipeRefreshLayout.setRefreshing(false);
         article.clear();
         if (blockArticle.getResults() != null){

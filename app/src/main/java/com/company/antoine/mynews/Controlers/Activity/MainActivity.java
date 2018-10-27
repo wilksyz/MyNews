@@ -13,19 +13,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.company.antoine.mynews.Controlers.Fragment.PageAdapter;
 import com.company.antoine.mynews.R;
 import com.company.antoine.mynews.Utils.NotificationAlarm;
 
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 
@@ -57,14 +54,31 @@ public class MainActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
-
-                        return true;
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_books:
+                                accessSectionDrawer(0);
+                                return true;
+                            case R.id.nav_politics:
+                                accessSectionDrawer(1);
+                                return true;
+                            case R.id.nav_sports:
+                                accessSectionDrawer(2);
+                                return true;
+                            case R.id.nav_technology:
+                                accessSectionDrawer(3);
+                                return true;
+                            case R.id.nav_theater:
+                                accessSectionDrawer(4);
+                                return true;
+                            case R.id.nav_travel:
+                                accessSectionDrawer(5);
+                                return true;
+                            default: return true;
+                        }
                     }
                 });
 
+        //AlarmManager for send the notification
         Intent intent = new Intent(this, NotificationAlarm.class);
         mPending = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         mManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -126,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //recovers the click on the button of the toolBar
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
@@ -138,13 +153,20 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent1 = new Intent(MainActivity.this, NotificationActivity.class);
                 startActivity(intent1);
                 return true;
+            case R.id.action_help:
+                Toast.makeText(this,"Help not available",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_about:
+                Toast.makeText(this,"About not available",Toast.LENGTH_SHORT).show();
+                return true;
             default: return super.onOptionsItemSelected(item);
         }
     }
 
     private void accessSectionDrawer(int position){
-        Intent intent = new Intent(MainActivity.this, ViewSearchActivity.class);
+        Intent intent = new Intent(MainActivity.this, DrawerViewArticleActivity.class);
         intent.putExtra("sectionChecked",mSection[position]);
+        startActivity(intent);
         
     }
 

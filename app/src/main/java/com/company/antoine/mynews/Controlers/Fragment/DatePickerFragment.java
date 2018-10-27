@@ -27,8 +27,6 @@ public class DatePickerFragment extends DialogFragment {
                 year,month,day);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return dialog;
-
-        //return new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth, this, year, month, day);
     }
 
 

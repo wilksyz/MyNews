@@ -34,9 +34,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\Antoine\Desktop\615KWjAew4L._SY355_.png" />
-                                      <entry key="outputName" value="ic_NYTimes" />
-                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="imageAsset" value="C:\Users\Antoine\Desktop\Symbol-New-York-Times-232x300.png" />
+                                      <entry key="outputName" value="ic_ny_times" />
+                                      <entry key="theme" value="CUSTOM" />
                                       <entry key="themeColor" value="000000" />
                                     </map>
                                   </option>
